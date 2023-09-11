@@ -4,20 +4,34 @@
 
 <template>
     <div v-if="!showMobileMenu" id="monitor-container">
-        <nav class="desktop">
+        <nav class="desktop-bar">
             <div class="icon">
-                <img ref="toSpin" src="/crouton.ico" alt="">
+                <img src="/crouton.ico" alt="">
             </div>
-            <ul class="links">
-                <li><NavEntry path="/">Home</NavEntry></li>
-                <li><NavEntry path="/list">List All</NavEntry></li>
-                <li><NavEntry path="/active">Active Tables</NavEntry></li>
+            <ul class="monitor-links">
+                <li><NavEntry class="nav-bar-item" path="/">Home</NavEntry></li>
+                <li><NavEntry class="nav-bar-item" path="/list">List All</NavEntry></li>
+                <li><NavEntry class="nav-bar-item" path="/active">Active Tables</NavEntry></li>
             </ul>
         </nav>
     </div>
-    <div v-if="showMobileMenu" id = "mobile-container">
-        <i class="fa-solid fa-bars" style="color: #000000;"></i>
+    <!-- mobile -->
+    <div v-if="showMobileMenu" class="container-fluid" id="app">
+    <nav class="row navbar">
+        <div class="hamburger-wrap">
+            <button class="hamburger" type="button" @click="menuOpen = !menuOpen">
+            <img src="/hamburger.svg" alt="" style="width: 8vh">  
+            </button>
+        </div>
+    </nav>
+    <div class="row dropdown" :class="{ 'dropdown-after' : menuOpen }">
+        <ul class="navlist">
+            <li><NavEntry class="nav-menu-item" path="/">Home</NavEntry></li>
+            <li><NavEntry class="nav-menu-item" path="/list">List All</NavEntry></li>
+            <li><NavEntry class="nav-menu-item" path="/active">Active Tables</NavEntry></li>
+        </ul>
     </div>
+</div>
 </template>
 
 <script>
@@ -25,7 +39,8 @@ export default {
     data() {
         return {
             showMobileMenu: false,
-            windowWidth: window.innerWidth
+            windowWidth: window.innerWidth,
+            menuOpen: false
             };
         },
     mounted() {
@@ -58,10 +73,12 @@ export default {
         height: var(--display-height);
         background-color: var(--background-white);
     }
-    .links {
+    .monitor-links {
         padding: 0 0 0 0;
         margin: 0 0 0 0;
         list-style-type: none;
+        display: flex;
+        gap: 1vh;
     }
 
     .icon {
@@ -71,7 +88,7 @@ export default {
         margin-left: 3vh;
         margin-right: 3vh;
     }
-    nav {
+    .desktop-bar {
         box-sizing: content-box;
         height: 100%;
         display: flex;
@@ -80,16 +97,59 @@ export default {
     }
     
 
-    nav > * {
+    .nav-bar-item {
         line-height: 4vh;
         display: flex;
         gap: 2vh;
     }
 
     /* mobile */
-    #mobile-container {
-        background-color: var(--background-white);
+    .navbar {
         height: var(--display-height);
+        background-color: var(--background-white);
+        display: flex;
+        border-radius: 0px;
+        justify-content: center;
+
     }
 
+    .hamburger-wrap {
+        width: 100px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .hamburger-wrap {
+        justify-content: flex-end;
+    }
+
+    .hamburger {
+        border: none;
+        background-color: transparent;
+    }
+    .dropdown {
+        height: 0px;
+        background-color: lightgreen;
+        transition: height 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .dropdown-after {
+    height: calc(100vh - 20vh);
+    transition: height 0.2s ease;
+    }
+
+    .navlist {
+    list-style: none;
+    }
+
+    .nav-menu-item {
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20px;
+    }
 </style>
